@@ -1,9 +1,21 @@
-import Image from "next/image";
+import { TrailsCard } from "@/components/TrailsCard/TrailsCard";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Hello World!</h1>
+    <div className="flex flex-col items-center text-center">
+      <h1 className="text-4xl font-bold mt-10 mb-4">
+        This is the landing page
+      </h1>
+      <div className="flex gap-4 justify-center">
+        <TrailsCard />
+        <TrailsCard />
+        <TrailsCard />
+      </div>
+      <div className="flex gap-4 justify-center">
+        <TrailsCard />
+        <TrailsCard />
+        <TrailsCard />
+      </div>
     </div>
   );
 }
