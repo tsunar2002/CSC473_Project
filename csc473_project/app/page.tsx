@@ -5,6 +5,7 @@ import Image from "next/image";
 import trailLogo from "../public/assets/TrailLogo.png";
 import { useEffect, useState } from "react";
 import fetchTrails from "@/controllers/trailsData";
+import { p } from "framer-motion/client";
 
 interface Trail {
   id: string;
@@ -26,6 +27,13 @@ export default function Home() {
       setTrails(trailsData.trails.slice(0, 4));
     }
 
+    async function getTrails() {
+      const response = await fetch("/api/trails");
+      const trails = await response.json();
+      console.log(trails);
+    }
+
+    getTrails();
     getTrailsData();
   }, []);
 
