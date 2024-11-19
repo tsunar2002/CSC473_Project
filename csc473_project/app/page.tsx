@@ -6,6 +6,7 @@ import trailLogo from "../public/assets/TrailLogo.png";
 import { useEffect, useState } from "react";
 import fetchTrails from "@/controllers/trailsData";
 import Link from "next/link";
+import { SearchBar } from "@/components/SearchBar/SearchBar";
 
 interface Trail {
   trailID: string;
@@ -67,29 +68,23 @@ export default function Home() {
           <span className="text-lg font-bold">TrailTales</span>
         </a>
 
-        <div className="lg:flex justify-center">
-          <Input
-            id="trailSearch"
-            placeholder="Search For Trails"
-            type="text"
-            className=""
-            onChange={handleInputChange}
-          />
-          <button
-            className="ml-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
-            onClick={handleSearchButton}
-          >
-            SEARCH
-          </button>
-        </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <button className="ml-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all">
             <Link href="auth/login">Log In</Link>
           </button>
+          <button className="ml-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all">
+            <Link href="auth/signup">Sign Up</Link>
+          </button>
         </div>
+      </div>
+      <div>
+        <SearchBar onSubmit={handleSearchButton} onChange={handleInputChange} />
       </div>
 
       <div className="flex flex-col items-center text-center">
+        <h2 className="sm:mb-20 text-lg text-left sm:text-3xl dark:text-white text-black">
+          Check out some trails below!!
+        </h2>
         <div className="flex flex-wrap gap-10 justify-center">
           {trails.length > 0
             ? trails.map((trail) => (
