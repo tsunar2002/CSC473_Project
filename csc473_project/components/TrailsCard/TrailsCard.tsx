@@ -8,17 +8,19 @@ import leavesImage from "../../public/assets/leaves.jpg";
 
 interface TrailsCardProps {
   trailName?: string;
-  difficultyScore?: string;
-  cityName?: string;
-  rating?: string;
+  length: string;
+  difficulty?: string;
+  location?: string;
+  description?: string;
   imageURL?: string;
 }
 
 export function TrailsCard({
   trailName = "TrailName",
-  difficultyScore = "Not enough info",
-  cityName = "CityName",
-  rating = "rating",
+  length = "N/A",
+  difficulty = "Not enough info",
+  location = "Location",
+  description = "",
   imageURL = "https://images.unsplash.com/photo-1507041957456-9c397ce39c97?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 }: TrailsCardProps) {
   return (
@@ -44,26 +46,21 @@ export function TrailsCard({
           translateZ="60"
           className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
         >
-          {cityName}
+          {description}
         </CardItem>
         <CardItem
           as="p"
           translateZ="60"
           className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
         >
-          Difficulty:{" "}
-          {parseInt(difficultyScore) < 3
-            ? "Easy"
-            : parseInt(difficultyScore) > 3
-            ? "Hard"
-            : "Medium"}
+          Difficulty: {difficulty}
         </CardItem>
         <CardItem
           as="p"
           translateZ="60"
           className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
         >
-          Rating: {rating}
+          Length: {length}
         </CardItem>
 
         <div className="flex justify-between items-center mt-10">

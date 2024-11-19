@@ -5,60 +5,58 @@ import Image from "next/image";
 import trailLogo from "../public/assets/TrailLogo.png";
 import { useEffect, useState } from "react";
 import fetchTrails from "@/controllers/trailsData";
-import { p } from "framer-motion/client";
+import Link from "next/link";
 
 interface Trail {
-  id: string;
-  name: string;
+  trailID: string;
+  trailName: string;
+  length: string;
   difficulty: string;
-  city: string;
-  rating: string;
-  thumbURL: string;
+  location: string;
+  description: string;
+  image_url: string;
 }
 
 export default function Home() {
-  const [city, setCity] = useState("");
+  const [location, setLocation] = useState("");
   const [trails, setTrails] = useState<Trail[]>([]);
   const [error, setError] = useState("");
+  const [allTrails, setAllTrails] = useState<Trail[]>([]);
+  const [landingPageTrails, setLandingPageTrails] = useState<Trail[]>([]);
 
   useEffect(() => {
-    async function getTrailsData() {
-      const trailsData = await fetchTrails("Albuquerque");
-      setTrails(trailsData.trails.slice(0, 4));
-    }
-
-    async function getTrails() {
+    async function getAllTrails() {
       const response = await fetch("/api/trails");
-      const trails = await response.json();
-      console.log(trails);
+      const allTrailsData = await response.json();
+      console.log(allTrailsData[0]);
+      setAllTrails(allTrailsData);
     }
 
-    getTrails();
-    getTrailsData();
+    getAllTrails();
   }, []);
+
+  useEffect(() => {
+    if (allTrails.length > 0) {
+      setLandingPageTrails(allTrails.slice(0, 4));
+    }
+  }, [allTrails]);
 
   // Function to get the city from input
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setCity(event.target.value);
+    setLocation(event.target.value);
   }
 
   // Function to handle Search
   async function handleSearchButton() {
-    if (!city) {
-      setError("Please type in a city name!");
+    if (!location) {
+      alert("Please type in a city name!");
       return;
     }
 
-    const data = await fetchTrails(city);
-    if (!data) {
-      setError(
-        "We do not have info about hiking spots in that location in our database!"
-      );
-      return;
-    }
-    // For now only getting 4 results beacuse of UI problems.
-    setTrails(data.trails.slice(0, 4));
-    setError("");
+    const filteredTrails = allTrails.filter((trail) =>
+      trail.location.includes(location.toLowerCase())
+    );
+    setTrails(filteredTrails);
   }
 
   return (
@@ -85,22 +83,37 @@ export default function Home() {
           </button>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a className="text-sm/6 font-semibold text-gray-900">Log in</a>
+          <button className="ml-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all">
+            <Link href="auth/login">Log In</Link>
+          </button>
         </div>
       </div>
 
       <div className="flex flex-col items-center text-center">
-        <div className="flex gap-10 justify-center">
-          {trails.map((trail) => (
-            <TrailsCard
-              key={trail.id}
-              trailName={trail.name}
-              difficultyScore={trail.difficulty}
-              cityName={trail.city}
-              rating={trail.rating}
-              imageURL={trail.thumbURL}
-            />
-          ))}
+        <div className="flex flex-wrap gap-10 justify-center">
+          {trails.length > 0
+            ? trails.map((trail) => (
+                <TrailsCard
+                  key={trail.trailID}
+                  trailName={trail.trailName}
+                  length={trail.length}
+                  difficulty={trail.difficulty}
+                  location={trail.location}
+                  description={trail.description}
+                  imageURL={trail.image_url}
+                />
+              ))
+            : landingPageTrails.map((trail) => (
+                <TrailsCard
+                  key={trail.trailID}
+                  trailName={trail.trailName}
+                  length={trail.length}
+                  difficulty={trail.difficulty}
+                  location={trail.location}
+                  description={trail.description}
+                  imageURL={trail.image_url}
+                />
+              ))}
         </div>
       </div>
     </>
