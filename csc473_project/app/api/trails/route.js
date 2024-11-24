@@ -1,9 +1,9 @@
-import { getAllTrails } from "../../../models/trails";
+import { fetchAllTrails } from "../../../controllers/trailsController";
 
 export async function GET(req) {
   try {
     // Fetch all trails using your helper function
-    const trails = await getAllTrails(); // Fetch the data
+    const trails = await fetchAllTrails(); // Fetch the data
 
     if (trails.length > 0) {
       return new Response(JSON.stringify(trails), {

@@ -13,7 +13,7 @@ export function SearchBar({ onSubmit, onChange }: SearchBarProps) {
     "Looking for a new hiking spot?",
     "Search for the best hiking trails...",
     "Touch grass...",
-    "Grass is green",
+    "Grass is green...",
   ];
 
   return (
