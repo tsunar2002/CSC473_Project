@@ -1,4 +1,4 @@
-import { getAllUsers } from "../../../models/users";
+// import { getAllUsers } from "../../../models/users";
 
 export async function GET(req) {
   try {
