@@ -7,6 +7,7 @@ interface CreatePostModalProps {
   onPost: () => void;
   onFileChange: (files: File[]) => void;
   isUploading: boolean;
+  onCaptionChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const CreatePostModal = ({
@@ -14,6 +15,7 @@ const CreatePostModal = ({
   onPost,
   onFileChange,
   isUploading,
+  onCaptionChange,
 }: CreatePostModalProps) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -56,6 +58,7 @@ const CreatePostModal = ({
             <textarea
               className="w-full h-16 px-4 py-2  border border-neutral-300 dark:border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:text-neutral-200 resize-none"
               placeholder="Optimistic Nihilism..."
+              onChange={onCaptionChange}
             ></textarea>
           </div>
 

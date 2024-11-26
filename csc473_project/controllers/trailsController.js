@@ -30,7 +30,7 @@ export async function fetchTrailsByLocation(location) {
     const { data, error } = await supabase
       .from("trails")
       .select("*")
-      .eq("location", location);
+      .ilike("location", `%${location}%`);
 
     if (error) {
       console.error("Error fetching trails: ", error);
