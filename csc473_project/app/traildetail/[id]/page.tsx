@@ -14,7 +14,6 @@ const TrailDetailPage = async ({
     <div>
       TrailDetailPage
       <h1>TODO: Use "trailInfo" to build this page!!</h1>
-      <h1>{trailInfo}</h1>
       <h1>Also make a weather card appear below the trail details</h1>
     </div>
   );
