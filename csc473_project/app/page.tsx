@@ -1,25 +1,30 @@
 "use client";
 import { TrailsCard } from "@/components/TrailsCard/TrailsCard";
-import Image from "next/image";
-import trailLogo from "../public/assets/TrailLogo.png";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { SearchBar } from "@/components/SearchBar/SearchBar";
 import { SparklesBackground } from "@/components/SparklesBackground/SparklesBackground";
 import { TrailModal } from "@/components/TrailModal/TrailModal";
-import { fetchAllTrails } from "@/controllers/trailsController";
+import Link from "next/link";
+import {
+  fetchAllTrails,
+  fetchTrailsByLocation,
+} from "@/controllers/trailsController";
+import { useAuth, useUser } from "@clerk/nextjs";
 
 interface Trail {
-  _id: string;
-  trailName: string;
-  length: string;
+  id: string;
+  trail_name: string;
+  length_miles: number;
   difficulty: string;
   location: string;
   description: string;
-  imageURL: string;
+  image_url: string;
 }
 
 export default function Home() {
+  // Get userId
+  const { userId } = useAuth();
+
   const [location, setLocation] = useState("");
   const [trails, setTrails] = useState<Trail[]>([]);
   const [allTrails, setAllTrails] = useState<Trail[]>([]);
@@ -27,9 +32,10 @@ export default function Home() {
 
   useEffect(() => {
     async function getAllTrails() {
-      const response = await fetch("/api/trails");
-      const allTrailsData = await response.json();
-      setAllTrails(allTrailsData);
+      const allTrails = await fetchAllTrails();
+      if (allTrails && Array.isArray(allTrails)) {
+        setAllTrails(allTrails);
+      }
     }
     getAllTrails();
   }, []);
@@ -40,9 +46,9 @@ export default function Home() {
     }
   }, [allTrails]);
 
-  // Function to get the city from input
+  // Function to get the state from input
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setLocation(event.target.value);
+    setLocation(event.target.value.toLowerCase());
   }
 
   // Function to handle Search
@@ -52,10 +58,10 @@ export default function Home() {
       return;
     }
 
-    const filteredTrails = allTrails.filter((trail) =>
-      trail.location.includes(location.toLowerCase())
-    );
-    setTrails(filteredTrails);
+    const filteredTrailsByLocation = await fetchTrailsByLocation(location);
+    if (filteredTrailsByLocation && Array.isArray(filteredTrailsByLocation)) {
+      setTrails(filteredTrailsByLocation);
+    }
   }
 
   return (
@@ -72,29 +78,36 @@ export default function Home() {
           {trails.length > 0
             ? trails.map((trail) => (
                 <TrailsCard
-                  key={trail._id}
-                  trailName={trail.trailName}
-                  length={trail.length}
+                  key={trail.id}
+                  id={trail.id}
+                  trail_name={trail.trail_name}
+                  length={trail.length_miles}
                   difficulty={trail.difficulty}
                   location={trail.location}
                   description={trail.description}
-                  imageURL={trail.imageURL}
+                  image_url={trail.image_url}
                 />
               ))
             : landingPageTrails.map((trail) => (
                 <TrailsCard
-                  key={trail._id}
-                  trailName={trail.trailName}
-                  length={trail.length}
+                  key={trail.id}
+                  id={trail.id}
+                  trail_name={trail.trail_name}
+                  length={trail.length_miles}
                   difficulty={trail.difficulty}
                   location={trail.location}
                   description={trail.description}
-                  imageURL={trail.imageURL}
+                  image_url={trail.image_url}
                 />
               ))}
         </div>
       </div>
-      <TrailModal />
+      {/* <TrailModal /> */}
+      <div className="flex justify-center m-5">
+        <button className="w-56 h-20 bg-slate-400 rounded">
+          <Link href="./user-profile">Profile Page</Link>
+        </button>
+      </div>
     </>
   );
 }

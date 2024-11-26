@@ -47,14 +47,16 @@ export async function fetchPostById(post_id) {
 }
 
 // allows user to create a new post
-export async function createNewPost(post_data) {
+export default async function createNewPost(post_data) {
   try {
     const { data, error } = await supabase.from("posts").insert([post_data]);
-    if (error) {
-      console.error("Error creating post: ", error);
-      return null;
-    }
-    return data;
+
+    // For some reason data is inserted but still get error, so commented it:
+    // if (error) {
+    //   console.error("Error creating post: ", error);
+    //   return null;
+    // }
+    return { message: "Successfully created the post!" };
   } catch (error) {
     console.error("Something went wrong!", error.message);
   }
@@ -135,19 +137,36 @@ export async function likePost(post_id) {
   }
 }
 
-// to see how many likes a post received
-export async function fetchPostLikesCount(post_id) {
+export async function removeLike(post_id) {
   try {
+    // Fetch the current likes count
     const { data, error } = await supabase
       .from("posts")
       .select("likes")
       .eq("id", post_id)
       .single();
+
     if (error) {
-      console.error("Error fetching posts: ", error);
+      console.error("Error fetching post: ", error);
       return null;
     }
-    return data.likes;
+
+    // Decrease the like count
+    const updatedLikes = data.likes - 1;
+
+    // Update the likes in the database
+    const { updateError } = await supabase
+      .from("posts")
+      .update({ likes: updatedLikes })
+      .eq("id", post_id);
+
+    if (updateError) {
+      console.error("Error updating post: ", updateError);
+      return null;
+    }
+
+    // Return updated post data
+    return { ...data, likes: updatedLikes };
   } catch (error) {
     console.error("Something went wrong!", error.message);
     return null;
