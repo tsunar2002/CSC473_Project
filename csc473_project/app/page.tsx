@@ -61,21 +61,6 @@ export default function Home() {
   return (
     <>
       <SparklesBackground />
-      {/*<div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-        <a className="flex lg:flex-1 items-center gap-3">
-          <Image src={trailLogo} height="60" width="60" alt="" />
-          <span className="text-lg font-bold">TrailTales</span>
-        </a>
-
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button className="w-[120px] ml-4 px-6 py-2 mr-4 bg-[#3a5b22] text-white font-semibold rounded-full shadow-md hover:bg-[#034605] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all">
-            <Link href="auth/login">Log In</Link>
-          </button>
-          <button className="w-[120px] ml-4 px-6 py-2 bg-[#3a5b22] text-white font-semibold rounded-full shadow-md hover:bg-[#034605] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all">
-            <Link href="auth/signup">Sign Up</Link>
-          </button>
-        </div>
-      </div>*/}
       <div>
         <SearchBar onSubmit={handleSearchButton} onChange={handleInputChange} />
       </div>
