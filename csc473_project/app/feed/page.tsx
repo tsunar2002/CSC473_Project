@@ -13,7 +13,6 @@ interface Post {
 }
 
 const FeedPage = () => {
-  const [userName, setUserName] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     async function getPosts() {
@@ -25,7 +24,6 @@ const FeedPage = () => {
     getPosts();
   }, []);
 
-  console.log(posts);
   return (
     <div>
       FeedPage

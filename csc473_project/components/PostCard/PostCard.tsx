@@ -3,7 +3,6 @@ import Image from "next/image";
 import profilePic from "../../public/assets/TrailLogo.png";
 import React, { useState } from "react";
 import { likePost, removeLike } from "@/controllers/postController";
-import { assert } from "console";
 
 interface PostCardProps {
   post_id: string;
