@@ -1,7 +1,7 @@
 import React from "react";
 
 const FavoritesPage = () => {
-  return <div>FavoritesPage</div>;
+  return <div>TODO: Fav Page</div>;
 };
 
 export default FavoritesPage;
