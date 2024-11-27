@@ -10,6 +10,7 @@ import {
   fetchTrailsByLocation,
 } from "@/controllers/trailsController";
 import { useAuth, useUser } from "@clerk/nextjs";
+import NavBar from "@/components/NavBar/NavBar";
 
 interface Trail {
   id: string;
@@ -66,11 +67,12 @@ export default function Home() {
 
   return (
     <>
+      <NavBar />
       <SparklesBackground />
       <div>
         <SearchBar onSubmit={handleSearchButton} onChange={handleInputChange} />
       </div>
-      <div className="flex flex-col items-center text-center">
+      <div className="flex flex-col items-center text-left">
         <h2 className="sm:mb-20 text-lg text-left sm:text-3xl dark:text-white text-black">
           Check out some trails below!!
         </h2>
@@ -103,11 +105,6 @@ export default function Home() {
         </div>
       </div>
       {/* <TrailModal /> */}
-      <div className="flex justify-center m-5">
-        <button className="w-56 h-20 bg-slate-400 rounded">
-          <Link href="./user-profile">Profile Page</Link>
-        </button>
-      </div>
     </>
   );
 }

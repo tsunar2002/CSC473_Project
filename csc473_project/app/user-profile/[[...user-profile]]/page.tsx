@@ -3,6 +3,7 @@ import { useState } from "react";
 import CreatePostModal from "@/components/CreatePostModal/CreatePostModal";
 import { useAuth, UserProfile, useUser } from "@clerk/nextjs";
 import { uploadPost } from "../../../controllers/usersController";
+import NavBar from "@/components/NavBar/NavBar";
 
 const ProfilePage = () => {
   // userId
@@ -61,6 +62,7 @@ const ProfilePage = () => {
 
   return (
     <>
+      <NavBar />
       <div>
         <UserProfile />
       </div>
