@@ -11,6 +11,7 @@ import {
 } from "@/controllers/trailsController";
 import { useAuth, useUser } from "@clerk/nextjs";
 import NavBar from "@/components/NavBar/NavBar";
+import { addUser, fetchAllUsers } from "@/controllers/usersController";
 
 interface Trail {
   id: string;
@@ -24,15 +25,19 @@ interface Trail {
 
 export default function Home() {
   // Get userId
-  const { userId } = useAuth();
+  const { user } = useUser();
 
   const [location, setLocation] = useState("");
   const [trails, setTrails] = useState<Trail[]>([]);
   const [allTrails, setAllTrails] = useState<Trail[]>([]);
   const [landingPageTrails, setLandingPageTrails] = useState<Trail[]>([]);
 
+  const userId = user?.id;
+  
+
   useEffect(() => {
     async function getAllTrails() {
+      fetchAllUsers();
       const allTrails = await fetchAllTrails();
       if (allTrails && Array.isArray(allTrails)) {
         setAllTrails(allTrails);
@@ -40,6 +45,9 @@ export default function Home() {
     }
     getAllTrails();
   }, []);
+
+
+
 
   useEffect(() => {
     if (allTrails.length > 0) {

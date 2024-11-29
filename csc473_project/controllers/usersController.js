@@ -1,6 +1,7 @@
 import { supabase } from "../lib/supabase.js";
 import createNewPost from "./postController.js";
 
+
 export async function uploadPost(files, caption, userId, user_name) {
   try {
     const file = files && files.length > 0 ? files[0] : null;
@@ -49,6 +50,66 @@ export async function uploadPost(files, caption, userId, user_name) {
     return result;
   } catch (error) {
     console.error("Something went wrong:", error.message);
+    return null;
+  }
+}
+
+export async function fetchTrailsByUserId(user_id) {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("favorites")
+      .eq("id", user_id)
+      .single();
+    if (error) {
+      console.error("Error fetching the trail: ", error);
+    }
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+}
+
+// Test Function
+export async function fetchAllUsers() {
+  try {
+    // Fetch trails using range for pagination
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+
+    if (error) {
+      console.error("Error fetching users: ", error);
+      return null;
+    }
+
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+}
+
+export async function addUser(user_id) {
+  try {
+    // Fetch trails using range for pagination
+    const { data, error } = await supabase
+      .from("users")
+      .insert({id: user_id, favorites: [], liked_posts: []});
+
+    if (error) {
+      console.error("Error fetching users: ", error);
+      return null;
+    }
+
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
     return null;
   }
 }
