@@ -7,6 +7,7 @@ import NavBar from "@/components/NavBar/NavBar";
 
 const ProfilePage = () => {
   // userId
+  // TODO: ProfilePage
   const { user } = useUser();
   console.log(user);
 
