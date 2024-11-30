@@ -99,7 +99,7 @@ export async function addUser(user_id) {
     // Fetch trails using range for pagination
     const { data, error } = await supabase
       .from("users")
-      .insert({id: user_id, favorites: [], liked_posts: []});
+      .insert({id: user_id, favorites: ["f0151a14-821d-432f-aac9-69417f128e15"], liked_posts: []});
 
     if (error) {
       console.error("Error fetching users: ", error);

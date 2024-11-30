@@ -5,6 +5,9 @@ import NavBar from "@/components/NavBar/NavBar"
 import { TrailsCard } from "@/components/TrailsCard/TrailsCard";
 import { fetchTrailsByUserId } from "@/controllers/usersController";
 import { useAuth, UserProfile, useUser } from "@clerk/nextjs";
+import {
+  fetchTrailsByIds
+} from "@/controllers/trailsController";
 
 interface Trail {
   id: string;
@@ -25,9 +28,13 @@ const FavoritesPage = () => {
 
   useEffect(() => {
     async function getFavTrails() {
-      const favTrails = await fetchTrailsByUserId(userId);
-      if (favTrails && Array.isArray(favTrails))
-        setFavTrails(favTrails);
+      const favTrailIds = await fetchTrailsByUserId("eeccd89a-9ecd-4407-a430-39ef10b4b36b");
+      const filteredByFavs = await fetchTrailsByIds(favTrailIds?.favorites)
+      if (filteredByFavs && Array.isArray(filteredByFavs))
+      {
+        setFavTrails(filteredByFavs);
+      }
+
     }
     getFavTrails();
   }, []);
@@ -41,18 +48,23 @@ const FavoritesPage = () => {
           Here are your favorites!
         </h2>
         <div className="flex flex-wrap gap-10 justify-center">
-          {favTrails.map((trail) => (
-              <TrailsCard
-                key={trail.id}
-                id={trail.id}
-                trail_name={trail.trail_name}
-                length={trail.length_miles}
-                difficulty={trail.difficulty}
-                location={trail.location}
-                description={trail.description}
-                image_url={trail.image_url}
-              />
-            ))}
+        {favTrails.length > 0
+            ? favTrails.map((trail) => (
+                <TrailsCard
+                  key={trail.id}
+                  id={trail.id}
+                  trail_name={trail.trail_name}
+                  length={trail.length_miles}
+                  difficulty={trail.difficulty}
+                  location={trail.location}
+                  description={trail.description}
+                  image_url={trail.image_url}
+                />
+              ))
+            : 
+              <>
+                <p>Currently no favorites yet, why not explore some trails?</p>
+              </>}
         </div>
       </div>
     </>
