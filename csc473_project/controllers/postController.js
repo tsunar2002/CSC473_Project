@@ -172,3 +172,21 @@ export async function removeLike(post_id) {
     return null;
   }
 }
+
+// Multiple post ids
+export async function fetchLikedPostsByIds(post_ids) {
+  try {
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .in("id", post_ids);
+    if (error) {
+      console.error("Error fetching the favorite trails: ", error);
+    }
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+}

@@ -4,6 +4,8 @@ import CreatePostModal from "@/components/CreatePostModal/CreatePostModal";
 import { useAuth, UserProfile, useUser } from "@clerk/nextjs";
 import { uploadPost } from "../../../controllers/usersController";
 import NavBar from "@/components/NavBar/NavBar";
+import { Tabs } from "@/components/ui/tabs";
+
 
 const ProfilePage = () => {
   // userId
@@ -61,15 +63,64 @@ const ProfilePage = () => {
     }
   }
 
+  const tabs = [
+    {
+      title: "Profile",
+      value: "profile",
+      content: (
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-l md:text-4xl text-white bg-gradient-to-br from-purple-700 to-violet-900">
+          <p>Edit Profile</p>
+          <div className="m-10">
+            <button
+              className="bg-cyan-500 w-40 h-20 rounded-xl"
+              onClick={toggleModal}
+            >
+              Create a New Post
+            </button>
+            {isModalOpen && (
+              <CreatePostModal
+                isUploading={uploading}
+                onCancel={toggleModal}
+                onPost={handlePost}
+                onFileChange={handleFileChange}
+                onCaptionChange={handleCaptionChange}
+              />
+            )}
+            {message && <p>{message}</p>}
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Favorites",
+      value: "favorites",
+      content: (
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-l md:text-4xl text-white bg-gradient-to-br from-purple-700 to-violet-900">
+          <p>My Favorites</p>
+        </div>
+      ),
+    },
+    {
+      title: "Liked",
+      value: "liked",
+      content: (
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-l md:text-4xl text-white bg-gradient-to-br from-purple-700 to-violet-900">
+          <p>My Liked Posts</p>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       <NavBar />
-      <div>
-        <UserProfile />
+      <div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative b flex flex-col max-w-5xl mx-auto w-full  items-start justify-start my-40">
+        <Tabs tabs={tabs} />
       </div>
+      
       <div className="m-10">
         <button
-          className="bg-cyan-500 w-40 h-10 rounded-xl"
+          className="bg-cyan-500 w-40 h-20 rounded-xl"
           onClick={toggleModal}
         >
           Create a New Post
