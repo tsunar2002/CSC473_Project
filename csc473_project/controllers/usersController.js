@@ -59,7 +59,7 @@ export async function fetchTrailsByUserId(user_id) {
     const { data, error } = await supabase
       .from("users")
       .select("favorites")
-      .eq("id", user_id)
+      .eq("clerk_userid", user_id)
       .single();
     if (error) {
       console.error("Error fetching the trail: ", error);
@@ -94,9 +94,48 @@ export async function fetchAllUsers() {
   }
 }
 
+export async function checkUser(user_id) {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("clerk_userid", user_id);
+
+    console.log(user_id);
+    console.log(data);
+
+    if (error) {
+      console.error("Error fetching existingUser: ", error);
+      return null;
+    }
+
+    if (data) {
+      console.log("User Already Exists!");
+      return null;
+    }
+
+    console.log("Copies: ", data);
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+
+}
+
 export async function addUser(user_id) {
   try {
+    // Convert clerk user_id to uuid
+    // If the new uuid already exists in database,  
+
     // Fetch trails using range for pagination
+
+    if (checkUser(user_id))
+    {
+      console.error("User already exists!");
+      return null;
+    }
+
     const { data, error } = await supabase
       .from("users")
       .insert({id: user_id, favorites: ["f0151a14-821d-432f-aac9-69417f128e15"], liked_posts: []});
@@ -106,10 +145,9 @@ export async function addUser(user_id) {
       return null;
     }
 
-    console.log(data)
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
     return null;
   }
-}
+} addUser("user_2pQ07IP3P1edGNRAyeZ1JaDE501");

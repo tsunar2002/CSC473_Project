@@ -11,7 +11,7 @@ import {
 } from "@/controllers/trailsController";
 import { useAuth, useUser } from "@clerk/nextjs";
 import NavBar from "@/components/NavBar/NavBar";
-import { addUser, fetchAllUsers } from "@/controllers/usersController";
+import { addUser, fetchAllUsers, checkUser } from "@/controllers/usersController";
 
 interface Trail {
   id: string;
@@ -31,17 +31,24 @@ export default function Home() {
   const [trails, setTrails] = useState<Trail[]>([]);
   const [allTrails, setAllTrails] = useState<Trail[]>([]);
   const [landingPageTrails, setLandingPageTrails] = useState<Trail[]>([]);
+  const [count, setCount] = useState(0)
 
   const userId = user?.id;
-  
+
+  useEffect(() => {
+    if (userId) {
+      addUser(userId);  // Ensure `addUser` is called only when `userId` is available
+    }
+  }, [userId]);
 
   useEffect(() => {
     async function getAllTrails() {
-      fetchAllUsers();
+      await fetchAllUsers();
       const allTrails = await fetchAllTrails();
       if (allTrails && Array.isArray(allTrails)) {
         setAllTrails(allTrails);
       }
+
     }
     getAllTrails();
   }, []);
