@@ -59,7 +59,7 @@ export async function fetchTrailsByUserId(user_id) {
     const { data, error } = await supabase
       .from("users")
       .select("favorites")
-      .eq("clerk_userid", user_id)
+      .eq("id", user_id)
       .single();
     if (error) {
       console.error("Error fetching the trail: ", error);
@@ -99,7 +99,7 @@ export async function checkUser(user_id) {
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("clerk_userid", user_id);
+      .eq("id", user_id);
 
     console.log(user_id);
     console.log(data);
@@ -150,4 +150,5 @@ export async function addUser(user_id) {
     console.error("Something went wrong!", error.message);
     return null;
   }
-} addUser("user_2pQ07IP3P1edGNRAyeZ1JaDE501");
+} 
+

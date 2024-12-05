@@ -63,26 +63,30 @@ const ProfilePage = () => {
   return (
     <>
       <NavBar />
-      <div>
-        <UserProfile />
-      </div>
-      <div className="m-10">
-        <button
-          className="bg-cyan-500 w-40 h-10 rounded-xl"
-          onClick={toggleModal}
-        >
-          Create a New Post
-        </button>
-        {isModalOpen && (
-          <CreatePostModal
-            isUploading={uploading}
-            onCancel={toggleModal}
-            onPost={handlePost}
-            onFileChange={handleFileChange}
-            onCaptionChange={handleCaptionChange}
-          />
-        )}
-        {message && <p>{message}</p>}
+      <div className="flex h-screen">
+        <div className="w-1/2 overflow-hidden border-r-2 ">
+          <div className="w-full max-w-[300px]"> {/* Adjust width here */}
+            <UserProfile />
+          </div>
+        </div>
+        <div className="w-1/2 flex flex-col justify-center items-center p-8">
+          <button
+            className="bg-cyan-500 w-40 h-10 rounded-xl"
+            onClick={toggleModal}
+          >
+            Create a New Post
+          </button>
+          {isModalOpen && (
+            <CreatePostModal
+              isUploading={uploading}
+              onCancel={toggleModal}
+              onPost={handlePost}
+              onFileChange={handleFileChange}
+              onCaptionChange={handleCaptionChange}
+            />
+          )}
+          {message && <p>{message}</p>}
+        </div>
       </div>
     </>
   );

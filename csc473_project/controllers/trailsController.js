@@ -69,6 +69,7 @@ export async function fetchTrailsByIds(trail_ids) {
     if (error) {
       console.error("Error fetching the favorite trails: ", error);
     }
+    
     console.log(data);
     return data;
   } catch (error) {

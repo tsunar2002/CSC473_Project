@@ -28,25 +28,28 @@ const FavoritesPage = () => {
 
   useEffect(() => {
     async function getFavTrails() {
-      const favTrailIds = await fetchTrailsByUserId("eeccd89a-9ecd-4407-a430-39ef10b4b36b");
-      const filteredByFavs = await fetchTrailsByIds(favTrailIds?.favorites)
-      if (filteredByFavs && Array.isArray(filteredByFavs))
-      {
-        setFavTrails(filteredByFavs);
+      if (userId) {
+        const favTrailIds = await fetchTrailsByUserId(userId);
+        const filteredByFavs = await fetchTrailsByIds(favTrailIds?.favorites)
+        if (filteredByFavs && Array.isArray(filteredByFavs))
+        {
+          setFavTrails(filteredByFavs);
+        }
       }
 
     }
     getFavTrails();
-  }, []);
+  }, [userId]);
 
 
   return (
     <>
       <NavBar />
       <div className="flex flex-col items-center text-left">
-        <h2 className="sm:mb-20 text-lg text-left sm:text-3xl dark:text-white text-black">
-          Here are your favorites!
-        </h2>
+      <h2 className="sm:mb-20 text-lg text-left sm:text-3xl font-semibold dark:text-white text-black py-4 border-b-2 border-gray-300">
+        🌟 Here are your favorites!
+      </h2>
+
         <div className="flex flex-wrap gap-10 justify-center">
         {favTrails.length > 0
             ? favTrails.map((trail) => (
