@@ -110,7 +110,6 @@ export async function checkUser(user_id) {
     }
 
     if (data) {
-      console.log("User Already Exists!");
       return null;
     }
 
@@ -132,7 +131,7 @@ export async function addUser(user_id) {
 
     if (checkUser(user_id))
     {
-      console.error("User already exists!");
+      console.log("User already exists!");
       return null;
     }
 
