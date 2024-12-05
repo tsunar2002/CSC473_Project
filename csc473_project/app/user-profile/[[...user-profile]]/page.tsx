@@ -74,7 +74,7 @@ const ProfilePage = () => {
             className="bg-cyan-500 w-40 h-10 rounded-xl"
             onClick={toggleModal}
           >
-            Create New Post
+            Create a New Post
           </button>
           {isModalOpen && (
             <CreatePostModal

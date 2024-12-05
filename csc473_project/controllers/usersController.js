@@ -150,5 +150,28 @@ export async function addUser(user_id) {
     console.error("Something went wrong!", error.message);
     return null;
   }
+<<<<<<< HEAD
 } 
 
+=======
+}
+
+export async function fetchLikedPostsByUserId(user_id) {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("liked_posts")
+      .eq("id", user_id)
+      .single();
+    if (error) {
+      console.error("Error fetching the trail: ", error);
+    }
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+}
+>>>>>>> cdf40055a875e4bfe503b534397ddd55a43bb93c
