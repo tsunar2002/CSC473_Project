@@ -53,9 +53,6 @@ const ProfilePostCard = ({
         <div>
           <h2 className="text-2xl text-gray-800">{user_name}</h2>
         </div>
-        <div>
-          <span className="text-gray-500 text-lg">{likes} Likes</span>
-        </div>
       </div>
 
       <div className="p-4 text-gray-700">
@@ -71,6 +68,7 @@ const ProfilePostCard = ({
           height={400}
         />
       </div>
+      <span className="text-gray-500 text-lg">{likes} Likes</span>
     </div>
   );
 };
