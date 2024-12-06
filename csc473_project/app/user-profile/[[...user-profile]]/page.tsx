@@ -1,20 +1,77 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreatePostModal from "@/components/CreatePostModal/CreatePostModal";
 import { useAuth, UserProfile, useUser } from "@clerk/nextjs";
 import { uploadPost } from "../../../controllers/usersController";
 import NavBar from "@/components/NavBar/NavBar";
+import { fetchAllPosts } from "@/controllers/postController";
+import { fetchTrailsByUserId } from "../../../controllers/usersController";
+import { fetchTrailsByIds } from "@/controllers/trailsController";
+import { ProfileTrailsCard } from "@/components/ProfileTrailsCard/ProfileTrailsCard";
+import ProfilePostCard from "@/components/ProfilePostCard/ProfilePostCard";
+
+interface Trail {
+  id: string;
+  trail_name: string;
+  length_miles: number;
+  difficulty: string;
+  location: string;
+  description: string;
+  image_url: string;
+}
+
+interface Post {
+  user_name: string;
+  id: string;
+  image_url: string;
+  caption: string;
+  likes: number;
+}
 
 const ProfilePage = () => {
   // userId
   const { user } = useUser();
-  console.log(user);
 
   const [files, setFiles] = useState<File[]>([]);
+  const [username, setUsername] = useState(user?.username || "");
+  const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [caption, setCaption] = useState<string>("");
+  const [favTrails, setFavTrails] = useState<Trail[]>([]);
+  const [likedPosts, setLikedPosts] = useState<Post[]>([]);
+
+
+  const userId = user?.id;
+
+  useEffect(() => {
+    async function getFavTrails() {
+      if (userId) {
+        const favTrailIds = await fetchTrailsByUserId(userId);
+        const filteredByFavs = await fetchTrailsByIds(favTrailIds?.favorites.slice(0,2))
+        if (filteredByFavs && Array.isArray(filteredByFavs)) {
+          setFavTrails(filteredByFavs);
+        }
+      }
+
+    }
+    getFavTrails();
+  }, [userId]);
+
+  useEffect(() => {
+    async function getLikedPosts() {
+      if (userId) {
+        const likedPosts = await fetchAllPosts(1, 2);
+        if (likedPosts && Array.isArray(likedPosts)) {
+          setLikedPosts(likedPosts);
+        }
+      }
+
+    }
+    getLikedPosts();
+  }, [userId]);
+
 
   function toggleModal() {
     setIsModalOpen(!isModalOpen);
@@ -64,17 +121,17 @@ const ProfilePage = () => {
     <>
       <NavBar />
       <div className="flex h-screen">
-        <div className="w-1/2 overflow-hidden border-r-2 ">
-          <div className="w-full max-w-[300px]"> {/* Adjust width here */}
+        <div className="w-1/2 overflow-hidden border-r-2 p-4">
+          <div className="w-[90%] h-[80%]">
             <UserProfile />
           </div>
         </div>
-        <div className="w-1/2 flex flex-col justify-center items-center p-8">
-          <button
-            className="bg-cyan-500 w-40 h-10 rounded-xl"
-            onClick={toggleModal}
-          >
-            Create a New Post
+        <div className="w-1/2 flex flex-col justify-center items-center p-8 space-y-8">
+          <button className="p-[3px] relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+            <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent" onClick={toggleModal}>
+              Create New Post
+            </div>
           </button>
           {isModalOpen && (
             <CreatePostModal
@@ -86,6 +143,43 @@ const ProfilePage = () => {
             />
           )}
           {message && <p>{message}</p>}
+          <div className="w-full bg-gray-200 p-4 rounded-lg">
+            <p>My Liked Posts</p>
+            <div className="flex flex-wrap gap-10 justify-center">
+            {likedPosts.map((post) => (
+              <ProfilePostCard
+                key={post.id}
+                post_id={post.id}
+                user_name={post.user_name}
+                image_url={post.image_url}
+                caption={post.caption}
+                total_likes={post.likes}
+              />
+            ))} 
+            </div>
+          </div>
+          <div className="w-full bg-gray-200 p-4 rounded-lg">
+            <p>My Favorites</p>
+            <div className="flex flex-wrap gap-10 justify-center">
+            {favTrails.length > 0
+                ? favTrails.map((trail) => (
+                    <ProfileTrailsCard
+                      key={trail.id}
+                      id={trail.id}
+                      trail_name={trail.trail_name}
+                      length={trail.length_miles}
+                      difficulty={trail.difficulty}
+                      location={trail.location}
+                      description={trail.description}
+                      image_url={trail.image_url}
+                    />
+                  ))
+                : 
+                  <>
+                    <p>Currently no favorites yet, why not explore some trails?</p>
+                  </>}
+            </div>
+          </div>
         </div>
       </div>
     </>

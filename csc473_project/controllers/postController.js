@@ -22,6 +22,8 @@ export async function fetchAllPosts(page = 1, pageSize = 10) {
       console.log("No posts found.");
       return [];
     }
+
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
