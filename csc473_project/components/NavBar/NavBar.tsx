@@ -1,61 +1,32 @@
-"use client"
+import Link from 'next/link';
 
-import * as React from "react"
-import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu"
-
-
-const NavBar = () => {
+export default function Navbar() {
   return (
-    <>
-      <div>
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Home
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/feed" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Feed
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/favorites" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Favorites
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/user-profile" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Manage Profile
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+    <nav className="bg-green-700 text-white py-4 shadow-md">
+      <div className="container mx-auto">
+        <ul className="flex justify-center space-x-16 text-lg font-medium">
+          <li>
+            <Link href="/" className="hover:text-indigo-400 transition duration-200">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link href="/feed" className="hover:text-indigo-400 transition duration-200">
+              Feed
+            </Link>
+          </li>
+          <li>
+            <Link href="/favorites" className="hover:text-indigo-400 transition duration-200">
+              Favorites
+            </Link>
+          </li>
+          <li>
+            <Link href="/user-profile" className="hover:text-indigo-400 transition duration-200">
+              Manage Profile
+            </Link>
+          </li>
+        </ul>
       </div>
-    </>
-  )
-};
-
-export default NavBar;
+    </nav>
+  );
+}
