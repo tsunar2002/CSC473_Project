@@ -31,6 +31,8 @@ export async function fetchAllPosts(page = 1, pageSize = 10) {
   }
 }
 
+
+
 // get a certain post
 export async function fetchPostById(post_id) {
   try {
