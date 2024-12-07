@@ -50,7 +50,7 @@ const ProfilePage = () => {
     async function getFavTrails() {
       if (userId) {
         const favTrailIds = await fetchTrailsByUserId(userId);
-        const filteredByFavs = await fetchTrailsByIds(favTrailIds?.favorites.slice(0, 2))
+        const filteredByFavs = await fetchTrailsByIds(favTrailIds?.favorites.slice(0, 4))
         if (filteredByFavs && Array.isArray(filteredByFavs)) {
           setFavTrails(filteredByFavs);
         }
@@ -58,19 +58,6 @@ const ProfilePage = () => {
 
     }
     getFavTrails();
-  }, [userId]);
-
-  useEffect(() => {
-    async function getLikedPosts() {
-      if (userId) {
-        const likedPosts = await fetchAllPosts(1, 2);
-        if (likedPosts && Array.isArray(likedPosts)) {
-          setLikedPosts(likedPosts);
-        }
-      }
-
-    }
-    getLikedPosts();
   }, [userId]);
 
 
