@@ -122,7 +122,7 @@ const ProfilePage = () => {
     <>
       <NavBar />
       <div className="flex h-screen">
-        <div className="w-1/2 overflow-hidden border-r-2 p-4 flex flex-col justify-center items-center space-y-8">
+        <div className="w-1/2 overflow-hidden border-r-2 p-3 flex flex-col justify-center items-center space-y-8">
           <div>
             <UserProfile />
           </div>
@@ -143,7 +143,7 @@ const ProfilePage = () => {
           )}
           {message && <p>{message}</p>}
         </div>
-        <div className="w-1/2 flex flex-col items-center p-8 space-y-8 mt-20">
+        <div className="w-1/2 flex flex-col items-center p-8 space-y-8 mt-10">
           <div className="w-full bg-gray-200 p-4 rounded-lg">
             <div className="flex justify-between items-center">
               <p className="font-semibold">My Liked Posts</p>
