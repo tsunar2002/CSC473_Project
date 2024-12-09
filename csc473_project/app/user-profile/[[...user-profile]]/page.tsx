@@ -113,56 +113,53 @@ const ProfilePage = () => {
           <div>
             <UserProfile />
           </div>
-          <button className="p-[3px] relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-            <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent" onClick={toggleModal}>
-              Create New Post
-            </div>
-          </button>
-          {isModalOpen && (
-            <CreatePostModal
-              isUploading={uploading}
-              onCancel={toggleModal}
-              onPost={handlePost}
-              onFileChange={handleFileChange}
-              onCaptionChange={handleCaptionChange}
-            />
-          )}
-          {message && <p>{message}</p>}
         </div>
-        <div className="w-1/2 flex flex-col items-center p-8 space-y-8 mt-10">
-          <div className="w-full bg-gray-200 p-4 rounded-lg">
-            <div className="flex justify-between items-center">
-              <p className="font-semibold">My Posts</p>
-              <Link href="/feed" passHref>
-                <button className="className=inline-block bg-gray-800 text-white py-2 px-4 rounded-lg font-medium shadow-lg hover:bg-black transition-all transform hover:scale-105 duration-300 ease-in-out">
-                    See More
-                </button>
-              </Link>
+        <div className="w-1/2 flex flex-col justify-center items-center p-8 space-y-8 bg-[url('https://static.vecteezy.com/system/resources/thumbnails/030/353/613/small_2x/natural-background-ai-generated-photo.jpg')] bg-cover bg-center">
+          <div className="w-full bg-gradient-to-br from-white to-gray-100 p-6 rounded-lg shadow-lg space-y-8 relative">
+            {/* Header Section */}
+            <div className="flex justify-between items-center border-b pb-4">
+              <p className="font-bold text-2xl text-gray-800">🌟 Share Your Story Here</p>
             </div>
-            <div className="flex flex-wrap gap-10 justify-center">
-              {likedPosts.map((post) => (
-                <ProfilePostCard
-                  key={post.id}
-                  post_id={post.id}
-                  user_name={post.user_name}
-                  image_url={post.image_url}
-                  caption={post.caption}
-                  total_likes={post.likes}
-                />
-              ))}
+
+            {/* Button Section */}
+            <div className="flex flex-col items-center space-y-4">
+              <p className="text-lg text-center">
+                Share and relive your best memories with the community. 
+              </p>
+              <p className="text-lg text-center">
+                Inspire others to hit the trails today!
+              </p>
+              <button className="relative group p-[3px]">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg group-hover:opacity-80 transition-opacity duration-200" />
+                <div
+                  className="px-10 py-4 bg-black rounded-[10px] relative text-white text-xl font-bold shadow-md group-hover:scale-105 transform transition-all duration-300"
+                  onClick={toggleModal}
+                >
+                  Create Your Post ✍️
+                </div>
+              </button>
             </div>
+            {isModalOpen && (
+              <CreatePostModal
+                isUploading={uploading}
+                onCancel={toggleModal}
+                onPost={handlePost}
+                onFileChange={handleFileChange}
+                onCaptionChange={handleCaptionChange}
+              />
+            )}
+            {message && <p>{message}</p>}
           </div>
-          <div className="w-full bg-gray-200 p-4 rounded-lg">
+          <div className="w-full bg-white p-4 rounded-lg space-y-5">
             <div className="flex justify-between items-center">
-              <p className="font-semibold">My Favorites</p>
+              <p className="font-bold text-xl">My Favorites</p>
               <Link href="/favorites" passHref>
                 <button className="className=inline-block bg-gray-800 text-white py-2 px-4 rounded-lg font-medium shadow-lg hover:bg-black transition-all transform hover:scale-105 duration-300 ease-in-out">
                   See More
                 </button>
               </Link>
             </div>
-            <div className="flex flex-wrap gap-10 justify-center">
+            <div className="flex flex-col gap-6 w-full">
               {favTrails.length > 0
                 ? favTrails.map((trail) => (
                   <ProfileTrailsCard
@@ -178,7 +175,7 @@ const ProfilePage = () => {
                 ))
                 :
                 <>
-                  <p>Currently no favorites yet, why not explore some trails?</p>
+                  <p>Currently no favorites yet.</p>
                 </>}
             </div>
           </div>

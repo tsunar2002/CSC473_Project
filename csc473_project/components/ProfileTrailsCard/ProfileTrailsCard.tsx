@@ -19,22 +19,29 @@ export function ProfileTrailsCard({
   id,
   trail_name = "TrailName",
   length = "N/A",
-  difficulty = "Not enough info",
-  location = "Location",
-  description = "",
-  image_url = "https://images.unsplash.com/photo-1507041957456-9c397ce39c97?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  difficulty,
+  location,
+  description,
+  image_url,
 }: TrailsCardProps) {
   return (
-    <CardContainer className="inter-var">
-      <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[20rem] h-auto rounded-xl p-6 border  ">
+    <CardContainer className="inter-var w-full">
+      <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-auto rounded-xl p-6 border flex flex-row">
         <CardItem
-          translateZ="50"
-          className="text-xl font-bold text-neutral-600 dark:text-white"
+          className="text-xl font-bold dark:text-white"
         >
           {trail_name}
         </CardItem>
+        <div className="flex justify-between items-end">
+          <CardItem
+            as="button"
+            className="className=inline-block bg-gray-800 text-white py-2 px-4 rounded-lg font-medium shadow-lg hover:bg-black transition-all transform hover:scale-105 duration-300 ease-in-out"
+          >
+            <Link href={`traildetail/${id}`}>View</Link>
+          </CardItem>
+        </div>
       </CardBody>
-      
     </CardContainer>
   );
 }
+
