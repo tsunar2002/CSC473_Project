@@ -2,7 +2,7 @@
 import PostCard from "@/components/PostCard/PostCard";
 import React, { useEffect, useState } from "react";
 import { fetchAllPosts } from "../../controllers/postController";
-import { useUser } from "@clerk/nextjs";
+import Navbar from "@/components/NavBar/NavBar";
 
 interface Post {
   user_name: string;
@@ -26,7 +26,7 @@ const FeedPage = () => {
 
   return (
     <div>
-      FeedPage
+      <Navbar />
       {posts.map((post) => (
         <PostCard
           key={post.id}

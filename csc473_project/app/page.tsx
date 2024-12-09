@@ -3,15 +3,14 @@ import { TrailsCard } from "@/components/TrailsCard/TrailsCard";
 import { useEffect, useState } from "react";
 import { SearchBar } from "@/components/SearchBar/SearchBar";
 import { SparklesBackground } from "@/components/SparklesBackground/SparklesBackground";
-import { TrailModal } from "@/components/TrailModal/TrailModal";
-import Link from "next/link";
 import {
   fetchAllTrails,
   fetchTrailsByLocation,
 } from "@/controllers/trailsController";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import NavBar from "@/components/NavBar/NavBar";
-import { addUser, fetchAllUsers, checkUser } from "@/controllers/usersController";
+import { addUser, fetchAllUsers } from "@/controllers/usersController";
+import Footer from "@/components/Footer/Footer";
 
 interface Trail {
   id: string;
@@ -24,61 +23,66 @@ interface Trail {
 }
 
 export default function Home() {
-  // Get userId
   const { user } = useUser();
+  const userId = user?.id;
 
   const [location, setLocation] = useState("");
   const [trails, setTrails] = useState<Trail[]>([]);
-  const [allTrails, setAllTrails] = useState<Trail[]>([]);
   const [landingPageTrails, setLandingPageTrails] = useState<Trail[]>([]);
-  const [count, setCount] = useState(0)
 
-  const userId = user?.id;
-
+  // Add user to the database if logged in
   useEffect(() => {
-    if (userId) {
-      addUser(userId);  // Ensure `addUser` is called only when `userId` is available
+    async function handleAddUser() {
+      try {
+        if (userId) {
+          await addUser(userId);
+        }
+      } catch (error) {
+        console.error("Error adding user:", error);
+      }
     }
+    handleAddUser();
   }, [userId]);
 
+  // Fetch all trails and populate landing page
   useEffect(() => {
     async function getAllTrails() {
-      await fetchAllUsers();
-      const allTrails = await fetchAllTrails();
-      if (allTrails && Array.isArray(allTrails)) {
-        setAllTrails(allTrails);
+      try {
+        const allTrails = await fetchAllTrails();
+        if (Array.isArray(allTrails)) {
+          setLandingPageTrails(allTrails.slice(0, 8));
+        }
+      } catch (error) {
+        console.error("Error fetching trails:", error);
       }
-
     }
     getAllTrails();
   }, []);
 
-
-
-
-  useEffect(() => {
-    if (allTrails.length > 0) {
-      setLandingPageTrails(allTrails);
-    }
-  }, [allTrails]);
-
-  // Function to get the state from input
+  // Handle location input
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setLocation(event.target.value.toLowerCase());
   }
 
-  // Function to handle Search
+  // Handle search button click
   async function handleSearchButton() {
     if (!location) {
       alert("Please type in a city name!");
       return;
     }
 
-    const filteredTrailsByLocation = await fetchTrailsByLocation(location);
-    if (filteredTrailsByLocation && Array.isArray(filteredTrailsByLocation)) {
-      setTrails(filteredTrailsByLocation);
+    try {
+      const filteredTrails = await fetchTrailsByLocation(location);
+      if (Array.isArray(filteredTrails)) {
+        setTrails(filteredTrails);
+      }
+    } catch (error) {
+      console.error("Error fetching trails by location:", error);
     }
   }
+
+  // Determine trails to display
+  const displayedTrails = trails.length > 0 ? trails : landingPageTrails;
 
   return (
     <>
@@ -87,39 +91,28 @@ export default function Home() {
       <div>
         <SearchBar onSubmit={handleSearchButton} onChange={handleInputChange} />
       </div>
-      <div className="flex flex-col items-center text-left">
-        <h2 className="sm:mb-20 text-lg text-left sm:text-3xl dark:text-white text-black">
+      <div className="flex flex-col items-center">
+        <h2 className="sm:mb-20 text-lg sm:text-3xl dark:text-white text-black">
           Check out some trails below!!
         </h2>
         <div className="flex flex-wrap gap-10 justify-center">
-          {trails.length > 0
-            ? trails.map((trail) => (
-                <TrailsCard
-                  key={trail.id}
-                  id={trail.id}
-                  trail_name={trail.trail_name}
-                  length={trail.length_miles}
-                  difficulty={trail.difficulty}
-                  location={trail.location}
-                  description={trail.description}
-                  image_url={trail.image_url}
-                />
-              ))
-            : landingPageTrails.map((trail) => (
-                <TrailsCard
-                  key={trail.id}
-                  id={trail.id}
-                  trail_name={trail.trail_name}
-                  length={trail.length_miles}
-                  difficulty={trail.difficulty}
-                  location={trail.location}
-                  description={trail.description}
-                  image_url={trail.image_url}
-                />
-              ))}
+          {displayedTrails.map((trail) => (
+            <TrailsCard
+              key={trail.id}
+              id={trail.id}
+              trail_name={trail.trail_name}
+              length={trail.length_miles}
+              difficulty={trail.difficulty}
+              location={trail.location}
+              description={trail.description}
+              image_url={trail.image_url}
+            />
+          ))}
         </div>
       </div>
-      {/* <TrailModal /> */}
+      <div className="mt-40">
+        <Footer />
+      </div>
     </>
   );
 }

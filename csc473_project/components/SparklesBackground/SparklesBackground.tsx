@@ -6,9 +6,7 @@ import { SignedIn, SignedOut, UserButton, UserProfile } from "@clerk/nextjs";
 
 export function SparklesBackground() {
   return (
-    <div className="h-[40rem] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
-    
-
+    <div className="h-[40rem] w-full bg-black flex flex-col items-center justify-center overflow-hidden ">
       <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center text-white relative z-20">
         TrailTales
       </h1>
