@@ -46,6 +46,7 @@ const FavoritesPage = () => {
     <>
       <NavBar />
       <div className="flex flex-col items-center text-left">
+
       <h2 className="sm:mb-20 text-lg text-left sm:text-3xl font-semibold dark:text-white text-black py-8 border-gray-300">
         🌟 Here are your favorites! 🌟
       </h2>
