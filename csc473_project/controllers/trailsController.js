@@ -59,6 +59,25 @@ export async function fetchTrailById(trail_id) {
   }
 }
 
+// Multiple Trail IDs
+export async function fetchTrailsByIds(trail_ids) {
+  try {
+    const { data, error } = await supabase
+      .from("trails")
+      .select("*")
+      .in("id", trail_ids);
+    if (error) {
+      console.error("Error fetching the favorite trails: ", error);
+    }
+    
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+}
+
 export async function addTrails(trail_data) {
   try {
     const { data, error } = await supabase.from("trails").insert(trail_data);
@@ -90,6 +109,7 @@ export async function fetchAllTrails(page = 1, pageSize = 10) {
       return null;
     }
 
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);

@@ -10,6 +10,8 @@ import {
   fetchTrailsByLocation,
 } from "@/controllers/trailsController";
 import { useAuth, useUser } from "@clerk/nextjs";
+import NavBar from "@/components/NavBar/NavBar";
+import { addUser, fetchAllUsers, checkUser } from "@/controllers/usersController";
 
 interface Trail {
   id: string;
@@ -23,22 +25,36 @@ interface Trail {
 
 export default function Home() {
   // Get userId
-  const { userId } = useAuth();
+  const { user } = useUser();
 
   const [location, setLocation] = useState("");
   const [trails, setTrails] = useState<Trail[]>([]);
   const [allTrails, setAllTrails] = useState<Trail[]>([]);
   const [landingPageTrails, setLandingPageTrails] = useState<Trail[]>([]);
+  const [count, setCount] = useState(0)
+
+  const userId = user?.id;
+
+  useEffect(() => {
+    if (userId) {
+      addUser(userId);  // Ensure `addUser` is called only when `userId` is available
+    }
+  }, [userId]);
 
   useEffect(() => {
     async function getAllTrails() {
+      await fetchAllUsers();
       const allTrails = await fetchAllTrails();
       if (allTrails && Array.isArray(allTrails)) {
         setAllTrails(allTrails);
       }
+
     }
     getAllTrails();
   }, []);
+
+
+
 
   useEffect(() => {
     if (allTrails.length > 0) {
@@ -66,11 +82,12 @@ export default function Home() {
 
   return (
     <>
+      <NavBar />
       <SparklesBackground />
       <div>
         <SearchBar onSubmit={handleSearchButton} onChange={handleInputChange} />
       </div>
-      <div className="flex flex-col items-center text-center">
+      <div className="flex flex-col items-center text-left">
         <h2 className="sm:mb-20 text-lg text-left sm:text-3xl dark:text-white text-black">
           Check out some trails below!!
         </h2>
@@ -103,11 +120,6 @@ export default function Home() {
         </div>
       </div>
       {/* <TrailModal /> */}
-      <div className="flex justify-center m-5">
-        <button className="w-56 h-20 bg-slate-400 rounded">
-          <Link href="./user-profile">Profile Page</Link>
-        </button>
-      </div>
     </>
   );
 }

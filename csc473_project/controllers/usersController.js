@@ -1,6 +1,7 @@
 import { supabase } from "../lib/supabase.js";
 import createNewPost from "./postController.js";
 
+
 export async function uploadPost(files, caption, userId, user_name) {
   try {
     const file = files && files.length > 0 ? files[0] : null;
@@ -52,3 +53,101 @@ export async function uploadPost(files, caption, userId, user_name) {
     return null;
   }
 }
+
+export async function fetchTrailsByUserId(user_id) {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("favorites")
+      .eq("id", user_id)
+      .single();
+    if (error) {
+      console.error("Error fetching the trail: ", error);
+    }
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+}
+
+// Test Function
+export async function fetchAllUsers() {
+  try {
+    // Fetch trails using range for pagination
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+
+    if (error) {
+      console.error("Error fetching users: ", error);
+      return null;
+    }
+
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+}
+
+export async function checkUser(user_id) {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user_id);
+
+    console.log(user_id);
+    console.log(data);
+
+    if (error) {
+      console.error("Error fetching existingUser: ", error);
+      return null;
+    }
+
+    if (data) {
+      return null;
+    }
+
+    console.log("Copies: ", data);
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+
+}
+
+export async function addUser(user_id) {
+  try {
+    // Convert clerk user_id to uuid
+    // If the new uuid already exists in database,  
+
+    // Fetch trails using range for pagination
+
+    if (checkUser(user_id))
+    {
+      console.log("User already exists!");
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from("users")
+      .insert({id: user_id, favorites: ["f0151a14-821d-432f-aac9-69417f128e15"], liked_posts: []});
+
+    if (error) {
+      console.error("Error fetching users: ", error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return null;
+  }
+} 
+
