@@ -1,7 +1,6 @@
 import { SignUp } from "@clerk/nextjs";
-import leavesImage from "../../../public/assets/leaves.jpg";
+import leavesImage from "../../../public/assets/authbg1.jpg";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Page() {
   return (
