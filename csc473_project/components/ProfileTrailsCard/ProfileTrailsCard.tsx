@@ -26,13 +26,13 @@ export function ProfileTrailsCard({
 }: TrailsCardProps) {
   return (
     <CardContainer className="inter-var w-full">
-      <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-auto rounded-xl p-6 border flex flex-row">
+      <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-auto rounded-xl p-6 border flex flex-row justify-between items-center">
         <CardItem
-          className="text-xl font-bold dark:text-white"
+          className="text-xl font-bold dark:text-white text-left"
         >
           {trail_name}
         </CardItem>
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between">
           <CardItem
             as="button"
             className="className=inline-block bg-gray-800 text-white py-2 px-4 rounded-lg font-medium shadow-lg hover:bg-black transition-all transform hover:scale-105 duration-300 ease-in-out"
