@@ -108,20 +108,19 @@ const ProfilePage = () => {
   return (
     <>
       <NavBar />
-      <div className="flex h-screen">
-        <div className="w-1/2 overflow-hidden border-r-2 p-3 flex flex-col justify-center items-center space-y-8">
+      {/*bg-[url('https://plus.unsplash.com/premium_photo-1676218968741-8179dd7e533f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91dGFpbnxlbnwwfHwwfHx8MA%3D%3D')] bg-cover bg-center*/}
+      <div className="flex h-screen bg-gray-200">
+        <div className="w-1/2 overflow-hidden  p-3 flex flex-col justify-center items-center space-y-8">
           <div>
             <UserProfile />
           </div>
         </div>
-        <div className="w-1/2 flex flex-col justify-center items-center p-8 space-y-8 bg-[url('https://static.vecteezy.com/system/resources/thumbnails/030/353/613/small_2x/natural-background-ai-generated-photo.jpg')] bg-cover bg-center">
+        <div className="w-1/2 flex flex-col justify-center items-center p-8 space-y-8 ">
           <div className="w-full bg-gradient-to-br from-white to-gray-100 p-6 rounded-lg shadow-lg space-y-8 relative">
-            {/* Header Section */}
             <div className="flex justify-between items-center border-b pb-4">
               <p className="font-bold text-2xl text-gray-800">🌟 Share Your Story Here</p>
             </div>
 
-            {/* Button Section */}
             <div className="flex flex-col items-center space-y-4">
               <p className="text-lg text-center">
                 Share and relive your best memories with the community. 
@@ -150,7 +149,7 @@ const ProfilePage = () => {
             )}
             {message && <p>{message}</p>}
           </div>
-          <div className="w-full bg-white p-4 rounded-lg space-y-5">
+          <div className="w-full bg-white p-4 rounded-lg shadow-lg space-y-5">
             <div className="flex justify-between items-center">
               <p className="font-bold text-xl">My Favorites</p>
               <Link href="/favorites" passHref>
