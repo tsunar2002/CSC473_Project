@@ -25,12 +25,29 @@ const trail_data = [
   },
 ];
 
+// export async function fetchTrailsByLocation(location) {
+//   try {
+//     const { data, error } = await supabase
+//       .from("trails")
+//       .select("*")
+//       .ilike("location", `%${location}%`);
+
+//     if (error) {
+//       console.error("Error fetching trails: ", error);
+//     }
+//     return data;
+//   } catch (error) {
+//     console.error("Something went wrong!", error.message);
+//     return null;
+//   }
+// }
+
 export async function fetchTrailsByLocation(location) {
   try {
     const { data, error } = await supabase
       .from("trails")
       .select("*")
-      .ilike("location", `%${location}%`);
+      .or(`location.ilike.%${location}%,trail_name.ilike.%${location}%`);
 
     if (error) {
       console.error("Error fetching trails: ", error);
@@ -69,8 +86,8 @@ export async function fetchTrailsByIds(trail_ids) {
     if (error) {
       console.error("Error fetching the favorite trails: ", error);
     }
-    
-    console.log(data);
+
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -109,7 +126,7 @@ export async function fetchAllTrails(page = 1, pageSize = 10) {
       return null;
     }
 
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);

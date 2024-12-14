@@ -14,6 +14,7 @@ export function SearchBar({ onSubmit, onChange }: SearchBarProps) {
     "Search for the best hiking trails...",
     "Touch grass...",
     "Grass is green...",
+    "Type a state name (e.g., 'California') to find trails.",
   ];
 
   return (

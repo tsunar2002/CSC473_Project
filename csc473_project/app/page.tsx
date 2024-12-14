@@ -73,8 +73,10 @@ export default function Home() {
 
     try {
       const filteredTrails = await fetchTrailsByLocation(location);
-      if (Array.isArray(filteredTrails)) {
+      if (Array.isArray(filteredTrails) && filteredTrails.length > 0) {
         setTrails(filteredTrails);
+      } else {
+        alert("We currently do on know about that trail yet!!");
       }
     } catch (error) {
       console.error("Error fetching trails by location:", error);

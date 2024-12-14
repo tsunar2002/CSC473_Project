@@ -4,8 +4,6 @@ import WeatherCard from "@/components/WeatherCard/WeatherCard";
 import Image from "next/image";
 import getWeatherDetails from "@/controllers/weather";
 import BookmarkButton from "@/components/BookmarkButton/BookmarkButton";
-import { SignedOut, useUser } from "@clerk/nextjs";
-import { Link } from "lucide-react";
 import Navbar from "@/components/NavBar/NavBar";
 import Footer from "@/components/Footer/Footer";
 
@@ -53,7 +51,7 @@ const TrailDetailPage = async ({
   return (
     <>
       <Navbar />
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen shadow-2xl rounded-full">
         <main className="flex-grow container mx-auto p-6 space-y-8">
           {/* Hero Section */}
           <div className="relative h-96">
