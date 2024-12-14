@@ -64,7 +64,7 @@ export async function fetchTrailsByUserId(user_id) {
       console.error("Error fetching the trail: ", error);
     }
 
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -83,7 +83,7 @@ export async function fetchAllUsers() {
       return null;
     }
 
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -98,8 +98,8 @@ export async function checkUser(user_id) {
       .select("*")
       .eq("id", user_id);
 
-    console.log(user_id);
-    console.log(data);
+    // console.log(user_id);
+    // console.log(data);
 
     if (error) {
       console.error("Error fetching existingUser: ", error);
@@ -110,7 +110,7 @@ export async function checkUser(user_id) {
       return null;
     }
 
-    console.log("Copies: ", data);
+    // console.log("Copies: ", data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -126,15 +126,9 @@ export async function addUser(user_id) {
     // Fetch trails using range for pagination
 
     if (checkUser(user_id)) {
-      console.log("User already exists!");
+      // console.log("User already exists!");
       return null;
     }
-
-    const { data, error } = await supabase.from("users").insert({
-      id: user_id,
-      favorites: ["f0151a14-821d-432f-aac9-69417f128e15"],
-      liked_posts: [],
-    });
 
     if (error) {
       console.error("Error fetching users: ", error);

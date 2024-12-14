@@ -45,9 +45,11 @@ const PostCard = ({
     <div className="max-w-3xl bg-white shadow-2xl rounded-lg overflow-hidden my-8 mx-auto">
       <div className="flex items-center p-6">
         <Image
-          src={profilePic}
+          src={image_url} // For now using the post image as profile
           alt="Profile"
           className="w-16 h-16 rounded-full mr-4"
+          width={64}
+          height={64}
         />
         <div>
           <h2 className="font-bold text-2xl text-gray-800">{user_name}</h2>

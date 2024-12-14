@@ -19,19 +19,17 @@ export async function fetchAllPosts(page = 1, pageSize = 10) {
     }
 
     if (!data || data.length === 0) {
-      console.log("No posts found.");
+      // console.log("No posts found.");
       return [];
     }
 
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
     return null;
   }
 }
-
-
 
 // get a certain post
 export async function fetchPostById(post_id) {
@@ -187,7 +185,7 @@ export async function fetchLikedPostsByIds(post_ids) {
     if (error) {
       console.error("Error fetching the favorite trails: ", error);
     }
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
