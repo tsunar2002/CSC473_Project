@@ -107,9 +107,9 @@ const ProfilePage = () => {
 
   return (
     <>
+      {/* Desktop */}
       <NavBar />
-      {/*bg-[url('https://plus.unsplash.com/premium_photo-1676218968741-8179dd7e533f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91dGFpbnxlbnwwfHwwfHx8MA%3D%3D')] bg-cover bg-center*/}
-      <div className="flex h-screen bg-gray-200">
+      <div className="hidden lg:flex h-screen bg-[url('https://plus.unsplash.com/premium_photo-1676218968741-8179dd7e533f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91dGFpbnxlbnwwfHwwfHx8MA%3D%3D')] bg-cover bg-center">
         <div className="w-1/2 overflow-hidden  p-3 flex flex-col justify-center items-center space-y-8">
           <div>
             <UserProfile />
@@ -123,7 +123,7 @@ const ProfilePage = () => {
 
             <div className="flex flex-col items-center space-y-4">
               <p className="text-lg text-center">
-                Share and relive your best memories with the community. 
+                Share and relive your best memories with the community.
               </p>
               <p className="text-lg text-center">
                 Inspire others to hit the trails today!
@@ -180,6 +180,76 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile */}
+      <div className="lg:hidden flex flex-col h-auto bg-[url('https://plus.unsplash.com/premium_photo-1676218968741-8179dd7e533f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91dGFpbnxlbnwwfHwwfHx8MA%3D%3D')] bg-cover bg-center space-y-8 p-4">
+        <div className="p-3 flex flex-col justify-center items-center space-y-8 rounded-lg shadow-lg">
+          <UserProfile />
+        </div>
+
+        <div className="w-full bg-gradient-to-br from-white to-gray-100 p-6 rounded-lg shadow-lg space-y-8 relative">
+          <div className="flex justify-between items-center border-b pb-4">
+            <p className="font-bold text-2xl text-gray-800">🌟 Share Your Story Here</p>
+          </div>
+          <div className="flex flex-col items-center space-y-4">
+            <p className="text-lg text-center">
+              Share and relive your best memories with the community.
+            </p>
+            <p className="text-lg text-center">
+              Inspire others to hit the trails today!
+            </p>
+            <button className="relative group p-[3px]">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg group-hover:opacity-80 transition-opacity duration-200" />
+              <div
+                className="px-10 py-4 bg-black rounded-[10px] relative text-white text-xl font-bold shadow-md group-hover:scale-105 transform transition-all duration-300"
+                onClick={toggleModal}
+              >
+                Create Your Post ✍️
+              </div>
+            </button>
+          </div>
+          {isModalOpen && (
+            <CreatePostModal
+              isUploading={uploading}
+              onCancel={toggleModal}
+              onPost={handlePost}
+              onFileChange={handleFileChange}
+              onCaptionChange={handleCaptionChange}
+            />
+          )}
+          {message && <p>{message}</p>}
+        </div>
+
+        <div className="w-full bg-white p-4 rounded-lg shadow-lg space-y-5">
+          <div className="flex justify-between items-center">
+            <p className="font-bold text-xl">My Favorites</p>
+            <Link href="/favorites" passHref>
+              <button className="bg-gray-800 text-white py-2 px-4 rounded-lg font-medium shadow-lg hover:bg-black transition-all transform hover:scale-105 duration-300 ease-in-out">
+                See More
+              </button>
+            </Link>
+          </div>
+          <div className="flex flex-col gap-6 w-full">
+            {favTrails.length > 0 ? (
+              favTrails.map((trail) => (
+                <ProfileTrailsCard
+                  key={trail.id}
+                  id={trail.id}
+                  trail_name={trail.trail_name}
+                  length={trail.length_miles}
+                  difficulty={trail.difficulty}
+                  location={trail.location}
+                  description={trail.description}
+                  image_url={trail.image_url}
+                />
+              ))
+            ) : (
+              <p>Currently no favorites yet.</p>
+            )}
+          </div>
+        </div>
+      </div>
+
     </>
   );
 };
