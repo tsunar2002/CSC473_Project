@@ -8,7 +8,6 @@ import { fetchAllPosts } from "@/controllers/postController";
 import { fetchTrailsByUserId } from "../../../controllers/usersController";
 import { fetchTrailsByIds } from "@/controllers/trailsController";
 import { ProfileTrailsCard } from "@/components/ProfileTrailsCard/ProfileTrailsCard";
-import ProfilePostCard from "@/components/ProfilePostCard/ProfilePostCard";
 import Link from "next/link";
 
 interface Trail {
@@ -43,23 +42,22 @@ const ProfilePage = () => {
   const [favTrails, setFavTrails] = useState<Trail[]>([]);
   const [likedPosts, setLikedPosts] = useState<Post[]>([]);
 
-
   const userId = user?.id;
 
   useEffect(() => {
     async function getFavTrails() {
       if (userId) {
         const favTrailIds = await fetchTrailsByUserId(userId);
-        const filteredByFavs = await fetchTrailsByIds(favTrailIds?.favorites.slice(0, 4))
+        const filteredByFavs = await fetchTrailsByIds(
+          favTrailIds?.favorites.slice(0, 4)
+        );
         if (filteredByFavs && Array.isArray(filteredByFavs)) {
           setFavTrails(filteredByFavs);
         }
       }
-
     }
     getFavTrails();
   }, [userId]);
-
 
   function toggleModal() {
     setIsModalOpen(!isModalOpen);
@@ -109,7 +107,7 @@ const ProfilePage = () => {
     <>
       {/* Desktop */}
       <NavBar />
-      <div className="hidden lg:flex h-screen bg-[url('https://plus.unsplash.com/premium_photo-1676218968741-8179dd7e533f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91dGFpbnxlbnwwfHwwfHx8MA%3D%3D')] bg-cover bg-center">
+      <div className="hidden lg:flex h-screen bg-[url('https://images.pexels.com/photos/57705/lake-evening-sunset-abendstimmung-57705.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center">
         <div className="w-1/2 overflow-hidden  p-3 flex flex-col justify-center items-center space-y-8">
           <div>
             <UserProfile />
@@ -118,7 +116,9 @@ const ProfilePage = () => {
         <div className="w-1/2 flex flex-col justify-center items-center p-8 space-y-8 ">
           <div className="w-full bg-gradient-to-br from-white to-gray-100 p-6 rounded-lg shadow-lg space-y-8 relative">
             <div className="flex justify-between items-center border-b pb-4">
-              <p className="font-bold text-2xl text-gray-800">🌟 Share Your Story Here</p>
+              <p className="font-bold text-2xl text-gray-800">
+                🌟 Share Your Story Here
+              </p>
             </div>
 
             <div className="flex flex-col items-center space-y-4">
@@ -159,8 +159,8 @@ const ProfilePage = () => {
               </Link>
             </div>
             <div className="flex flex-col gap-6 w-full">
-              {favTrails.length > 0
-                ? favTrails.map((trail) => (
+              {favTrails.length > 0 ? (
+                favTrails.map((trail) => (
                   <ProfileTrailsCard
                     key={trail.id}
                     id={trail.id}
@@ -172,24 +172,27 @@ const ProfilePage = () => {
                     image_url={trail.image_url}
                   />
                 ))
-                :
+              ) : (
                 <>
                   <p>Currently no favorites yet.</p>
-                </>}
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
 
       {/* Mobile */}
-      <div className="lg:hidden flex flex-col h-auto bg-[url('https://plus.unsplash.com/premium_photo-1676218968741-8179dd7e533f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91dGFpbnxlbnwwfHwwfHx8MA%3D%3D')] bg-cover bg-center space-y-8 p-4">
+      <div className="lg:hidden flex flex-col h-auto bg-[url('https://images.pexels.com/photos/57705/lake-evening-sunset-abendstimmung-57705.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center space-y-8 p-4">
         <div className="p-3 flex flex-col justify-center items-center space-y-8 rounded-lg shadow-lg">
           <UserProfile />
         </div>
 
         <div className="w-full bg-gradient-to-br from-white to-gray-100 p-6 rounded-lg shadow-lg space-y-8 relative">
           <div className="flex justify-between items-center border-b pb-4">
-            <p className="font-bold text-2xl text-gray-800">🌟 Share Your Story Here</p>
+            <p className="font-bold text-2xl text-gray-800">
+              🌟 Share Your Story Here
+            </p>
           </div>
           <div className="flex flex-col items-center space-y-4">
             <p className="text-lg text-center">
@@ -249,7 +252,6 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-
     </>
   );
 };
