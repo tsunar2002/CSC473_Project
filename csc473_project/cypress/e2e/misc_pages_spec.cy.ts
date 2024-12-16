@@ -22,10 +22,10 @@ describe('Sign In Reroute', () => {
     })
 })
 
-describe('Signup Test', () => {
-    it('sign in', () => {
-        cy.visit(`/`)
-        cy.clerkSignIn({ strategy: 'email_code', identifier: 'testuser+clerk_test@example.com' })
-        cy.visit('/favorites')
+describe('Trails Detail Page Loading', () => {
+    it('Should load a trail details page for more info', () => {
+        cy.visit(`/traildetail/5f2f978a-71b1-4024-843f-7f99674909f6`)
+        cy.contains("Weather in California")
+        cy.contains("Condition")
     })
 })
