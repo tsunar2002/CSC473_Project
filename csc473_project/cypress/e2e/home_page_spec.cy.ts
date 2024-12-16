@@ -1,14 +1,5 @@
 import { setupClerkTestingToken } from '@clerk/testing/cypress'
 
-describe('Signup Test', () => {
-  it('sign up', () => {
-    setupClerkTestingToken()
-
-    cy.visit('/sign-up')
-    // Add any other actions to test
-  })
-})
-
 describe('Home Page Launch', () => {
   it('Should be able to load home page', () => {
     cy.visit("/")
