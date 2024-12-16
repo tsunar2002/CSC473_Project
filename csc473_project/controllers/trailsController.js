@@ -1,47 +1,5 @@
 import { supabase } from "../lib/supabase.js";
 
-const trail_data = [
-  {
-    trail_name: "Mountain Peak Trail",
-    location: "Colorado",
-    difficulty: "Moderate",
-    description: "A moderate trail with scenic views.",
-    image_url:
-      "https://beautifulwashington.com/images/pinnacle-peak-trail-paradise-area-mt-rainier/pinnacle-peak-trail-10.jpg",
-    length_miles: 6.5,
-    long_description:
-      "Mountain Peak Trail is a beautiful and moderately challenging trail located in the heart of Colorado. The trail offers panoramic views of the surrounding mountains, wildlife sightings, and scenic spots perfect for photography. Expect to encounter some rocky areas and moderate elevation gain. It’s best suited for intermediate hikers. Be sure to bring plenty of water and wear sturdy shoes, as parts of the trail can be slippery during rainy weather.",
-  },
-  {
-    trail_name: "Mountain Peak Trail",
-    location: "Colorado",
-    difficulty: "Moderate",
-    description: "A moderate trail with scenic views.",
-    image_url:
-      "https://beautifulwashington.com/images/pinnacle-peak-trail-paradise-area-mt-rainier/pinnacle-peak-trail-10.jpg",
-    length_miles: 6.5,
-    long_description:
-      "Mountain Peak Trail is a beautiful and moderately challenging trail located in the heart of Colorado. The trail offers panoramic views of the surrounding mountains, wildlife sightings, and scenic spots perfect for photography. Expect to encounter some rocky areas and moderate elevation gain. It’s best suited for intermediate hikers. Be sure to bring plenty of water and wear sturdy shoes, as parts of the trail can be slippery during rainy weather.",
-  },
-];
-
-// export async function fetchTrailsByLocation(location) {
-//   try {
-//     const { data, error } = await supabase
-//       .from("trails")
-//       .select("*")
-//       .ilike("location", `%${location}%`);
-
-//     if (error) {
-//       console.error("Error fetching trails: ", error);
-//     }
-//     return data;
-//   } catch (error) {
-//     console.error("Something went wrong!", error.message);
-//     return null;
-//   }
-// }
-
 export async function fetchTrailsByLocation(location) {
   try {
     const { data, error } = await supabase
@@ -87,7 +45,6 @@ export async function fetchTrailsByIds(trail_ids) {
       console.error("Error fetching the favorite trails: ", error);
     }
 
-    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -108,10 +65,8 @@ export async function addTrails(trail_data) {
   }
 }
 
-// TODO: Add pagination logic to fetch only some trails from the table.
 export async function fetchAllTrails(page = 1, pageSize = 10) {
   try {
-    // Calculate the range to fetch
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
 
@@ -119,14 +74,13 @@ export async function fetchAllTrails(page = 1, pageSize = 10) {
     const { data, error } = await supabase
       .from("trails")
       .select("*")
-      .range(from, to); // Limit the number of records returned
+      .range(from, to);
 
     if (error) {
       console.error("Error fetching trails: ", error);
       return null;
     }
 
-    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);

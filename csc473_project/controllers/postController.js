@@ -1,29 +1,26 @@
 import { supabase } from "../lib/supabase.js";
 
-// Also has pagination logic
+// fetch posts
 export async function fetchAllPosts(page = 1, pageSize = 10) {
   try {
-    // Calculate the offset based on the current page and pageSize
     const offset = (page - 1) * pageSize;
 
     // Fetch posts with pagination (limit and offset)
     const { data, error } = await supabase
       .from("posts")
       .select("*")
-      .order("created_at", { ascending: false }) // Ordering posts by creation date (descending)
+      .order("created_at", { ascending: false })
       .range(offset, offset + pageSize - 1); // Limit the results based on page and pageSize
 
     if (error) {
       console.error("Error fetching posts: ", error);
-      return null; // Return null if there’s an error
+      return null;
     }
 
     if (!data || data.length === 0) {
-      // console.log("No posts found.");
       return [];
     }
 
-    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -131,7 +128,6 @@ export async function likePost(post_id) {
       return null;
     }
 
-    // Return updated post data
     return { ...data, likes: updatedLikes };
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -167,7 +163,6 @@ export async function removeLike(post_id) {
       return null;
     }
 
-    // Return updated post data
     return { ...data, likes: updatedLikes };
   } catch (error) {
     console.error("Something went wrong!", error.message);
@@ -185,7 +180,6 @@ export async function fetchLikedPostsByIds(post_ids) {
     if (error) {
       console.error("Error fetching the favorite trails: ", error);
     }
-    // console.log(data);
     return data;
   } catch (error) {
     console.error("Something went wrong!", error.message);
